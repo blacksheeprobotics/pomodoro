@@ -33,6 +33,20 @@ label_timer = tkinter.Label(text="Timer", font=(FONT_NAME, 40))
 label_timer.grid(row=0, column=1)
 label_timer.config(bg=YELLOW, fg=GREEN)
 
+# Add Start Button
+button_start = tkinter.Button(text="Start", font=FONT_NAME)
+button_start.config(bg=YELLOW, highlightthickness=0)
+button_start.grid(row=2, column=0)
+
+# Add Reset Button
+button_reset = tkinter.Button(text="Reset", font=FONT_NAME)
+button_reset.config(bg=YELLOW, highlightthickness=0)
+button_reset.grid(row=2, column=2)
+
+# Add check marks for completed Pomodoros
+label_checkmark = tkinter.Label(text="✓")
+label_checkmark.grid(row=3, column=1)
+label_checkmark.config(bg=YELLOW, fg=GREEN, font=(FONT_NAME, 30), highlightthickness=0)
 
 
 window.mainloop()
