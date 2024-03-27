@@ -8,19 +8,28 @@ GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
 WORK_MIN = 1
-SHORT_BREAK_MIN = 2
-LONG_BREAK_MIN = 3
+SHORT_BREAK_MIN = 1
+LONG_BREAK_MIN = 1
 reps = 0
+timer = None
 
 
 # ---------------------------- TIMER RESET ------------------------------- #
-# def reset_timer():
+def reset_timer():
+    global reps
+    global timer
 
+    window.after_cancel(timer)
+    label_timer.config(text="Timer")
+    canvas.itemconfig(timer_text, text="00:00")
+    label_checkmark.config(text="")
+    reps = 0
 
-# ---------------------------- TIMER MECHANISM ------------------------------- # 
+# ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_timer():
     global reps
     global label_timer
+
     reps += 1
     work_sec = WORK_MIN * 60
     short_break_sec = SHORT_BREAK_MIN * 60
@@ -41,6 +50,9 @@ def start_timer():
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 def countdown(count):
+
+    global timer
+
     count_min = math.floor(count / 60)
     count_sec = count % 60
 
@@ -49,9 +61,14 @@ def countdown(count):
 
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
     if count > 0:
-        window.after(1000, countdown, count - 1)
+        timer = window.after(1000, countdown, count - 1)
     else:
         start_timer()
+        marks = ""
+        work_sessions = math.floor(reps/2)
+        for _ in range(work_sessions):
+            marks += "✅︎"
+        label_checkmark.config(text=marks)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -77,7 +94,7 @@ button_start.config(bg=YELLOW)
 button_start.grid(row=2, column=0)
 
 # Add Reset Button
-button_reset = tkinter.Button(text="Reset", highlightthickness=0)
+button_reset = tkinter.Button(text="Reset", highlightthickness=0, command=reset_timer)
 button_reset.config(bg=YELLOW)
 button_reset.grid(row=2, column=2)
 
